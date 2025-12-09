@@ -8,24 +8,37 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { LoginResponse } from "../models/Interfaces";
 
 export default function Dashboard() {
-    const [currentUserStatus, setCurrentUserStatus] = React.useState<any>(JSON.parse(localStorage.getItem('catarbus_user') || 'null'));
     const [activeKey, setActiveKey] = React.useState('1');
+    const [currentUserStatus, setCurrentUserStatus] = React.useState<any>(null);
+    const [lastCheckpointString, setLastCheckpointString] = React.useState('Non disponibile');
+    const [lastHelpString, setLastHelpString] = React.useState('Non disponibile');
 
-    const lastCheckpointString = new Date(currentUserStatus.lastCheckpoint).toLocaleString('it-IT', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    }) || 'Non disponibile';
+    React.useEffect(() => {
+        // Accedi a localStorage solo dopo il mount del componente
+        const userStatus = JSON.parse(localStorage.getItem('catarbus_user') || 'null');
+        setCurrentUserStatus(userStatus);
 
-    const lastHelpString = new Date(currentUserStatus.lastHelp).toLocaleString('it-IT', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    }) || 'Non disponibile';
+        if (userStatus) {
+            const lastCheckpoint = userStatus.lastCheckpoint ? new Date(userStatus.lastCheckpoint).toLocaleString('it-IT', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            }) : 'Non disponibile';
+
+            const lastHelp = userStatus.lastHelp ? new Date(userStatus.lastHelp).toLocaleString('it-IT', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            }) : 'Non disponibile';
+
+            setLastCheckpointString(lastCheckpoint);
+            setLastHelpString(lastHelp);
+        }
+    }, []);
 
     const handleSelect = (selectedKey: string | null) => {
         if (selectedKey) {
