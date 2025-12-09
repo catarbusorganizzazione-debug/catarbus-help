@@ -10,7 +10,10 @@ export interface LoginResponse {
     id: string;
     user: string;
     name: string;
-    role: 'admin' | 'manager';
+    role: 'admin' | 'team';
+    lastHelp?: Date;
+    lastCheckpoint?: Date;
+    checkpointsCompleted?: number;
   };
   token?: string;
 }

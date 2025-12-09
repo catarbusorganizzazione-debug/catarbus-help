@@ -6,10 +6,12 @@ export default function Header() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-2xl">🎯</span>
+            <span>
+                <img src='/logo-CAT-tondo.png' alt='Logo CAT Arbus' className='w-8 h-8' />
+            </span>
             <div>
               <h1 className="text-xl font-bold text-gray-900">CAT Arbus</h1>
-              <p className="text-sm text-gray-600">Portale degli Aiuti</p>
+              <p className="text-sm text-gray-600">Sa Trattativa</p>
             </div>
           </div>
           

@@ -81,7 +81,7 @@ export default function Classifica() {
         ))}
       </div>
 
-      <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+      {/* <div className="mt-6 p-4 bg-gray-50 rounded-lg">
         <h3 className="font-medium text-gray-900 mb-3">Checkpoint di Gioco</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
           {mockGameState.checkpoints.map((checkpoint: any) => (
@@ -91,7 +91,7 @@ export default function Classifica() {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -27,8 +27,12 @@ export default function LoginForm() {
       if (response.success) {
         localStorage.setItem('catarbus_user', JSON.stringify({
           username: credentials.username,
+          name: response.user?.name,
           role: response.user?.role,
-          loginTime: new Date().toISOString()
+          loginTime: new Date().toISOString(),
+          lastHelp: response.user?.lastHelp,
+          lastCheckpoint: response.user?.lastCheckpoint,
+          checkpointsCompleted: response.user?.checkpointsCompleted
         }));
 
         if(response.user?.role === 'admin') {
@@ -100,12 +104,6 @@ export default function LoginForm() {
           {isLoading ? 'Accesso in corso...' : 'Accedi'}
         </button>
       </form>
-
-      <div className="mt-4 p-3 bg-blue-50 rounded-md">
-        <p className="text-sm text-blue-700">
-          <strong>Demo:</strong> admin / catarbus2025
-        </p>
-      </div>
     </div>
   );
 }

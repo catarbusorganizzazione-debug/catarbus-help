@@ -5,31 +5,29 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-8">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-xl">🎯</span>
-              <span className="font-bold">CAT Arbus</span>
+              <span className="text-xl"><img src='/logo-CAT-tondo.png' alt='Logo CAT Arbus' className='w-8 h-8' /></span>
+              <span className="font-bold">CAT Arbus. Sa Trattativa.</span>
             </div>
             <p className="text-gray-400 text-sm">
-              Portale per il monitoraggio in tempo reale del gioco CAT Arbus. 
-              Segui i progressi delle squadre e i checkpoint raggiunti.
+              Portale per il monitoraggio in tempo reale del gioco CAT Arbus.<br />
+              Segui i progressi delle squadre e i checkpoint raggiunti.<br />
+              Creato per soli fini ludici e di supporto all'evento.
             </p>
           </div>
-          
+                    
           <div>
-            <h3 className="font-semibold mb-4">Informazioni</h3>
-            <ul className="space-y-2 text-sm text-gray-400">
-              <li>• Aggiornamenti in tempo reale</li>
-              <li>• Classifiche live</li>
-              <li>• Dashboard amministrativa</li>
-              <li>• Supporto mobile</li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="font-semibold mb-4">Contatti</h3>
+            <h3 className="font-semibold mb-4">Supporto Tecnico</h3>
             <div className="text-sm text-gray-400">
-              <p>Per supporto tecnico o</p>
-              <p>assistenza durante il gioco</p>
-              <p className="mt-2 text-blue-400">admin@catarbus.com</p>
+              <p>Per supporto tecnico o assistenza durante il gioco</p>
+              <p className="mt-2 text-blue-400">MAIL DI ASSISTENZA</p>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="font-semibold mb-4">Contatti di emergenza</h3>
+            <div className="text-sm text-gray-400">
+              <p>Per soli fini di emergenza durante il gioco, utilizzare il gruppo WhatsApp oppure contattare</p>
+              <p className="mt-2 text-blue-400">NUMERO DI EMERGENZA</p>
             </div>
           </div>
         </div>

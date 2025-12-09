@@ -15,10 +15,10 @@ export default function Home() {
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
               Benvenuto nel Portale CAT Arbus
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            {/* <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Segui in tempo reale i progressi delle squadre e monitora i checkpoint raggiunti 
               durante il gioco. Accedi all'area riservata per gestire l'evento.
-            </p>
+            </p> */}
             <div className="mt-6 flex items-center justify-center gap-2 text-green-600">
               <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
               <span className="font-medium">Gioco in corso - Aggiornamenti live</span>
@@ -37,7 +37,7 @@ export default function Home() {
               <LoginForm />
               
               {/* Info Box */}
-              <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+              {/* <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <h3 className="font-medium text-blue-900 mb-2">ℹ️ Informazioni</h3>
                 <ul className="text-sm text-blue-800 space-y-1">
                   <li>• Aggiornamenti automatici ogni 30 secondi</li>
@@ -45,12 +45,12 @@ export default function Home() {
                   <li>• Area admin per gestione squadre</li>
                   <li>• Visualizzazione ottimizzata per mobile</li>
                 </ul>
-              </div>
+              </div> */}
             </div>
           </div>
           
           {/* Statistics Section */}
-          <div className="mt-12 bg-white rounded-lg shadow-md p-6">
+          {/* <div className="mt-12 bg-white rounded-lg shadow-md p-6">
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
               <span>📊</span>
               Statistiche di Gioco
@@ -73,7 +73,7 @@ export default function Home() {
                 <div className="text-sm text-gray-600">Stato Gioco</div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </main>
       
