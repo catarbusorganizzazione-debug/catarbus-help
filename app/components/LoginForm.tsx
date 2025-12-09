@@ -24,13 +24,20 @@ export default function LoginForm() {
 
       const response = await ApiHelper.login(credentials);
 
-      if (response) {
+      if (response.success) {
         localStorage.setItem('catarbus_user', JSON.stringify({
           username: credentials.username,
+          role: response.user?.role,
           loginTime: new Date().toISOString()
         }));
 
-        router.push('/dashboard');
+        if(response.user?.role === 'admin') {
+          router.push('/admin');
+          return;
+        } else {
+          router.push('/dashboard');
+          return;
+        }
       } else {
         setError('Credenziali non valide');
       }

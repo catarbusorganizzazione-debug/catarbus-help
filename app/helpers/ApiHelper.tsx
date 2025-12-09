@@ -28,7 +28,7 @@ class ApiHelper {
         })
       });
 
-      const data = await response.json();
+      const data = (await response.json()).data;
 
       if (!response.ok) {
         return {

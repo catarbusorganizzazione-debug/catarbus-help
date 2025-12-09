@@ -20,9 +20,6 @@ export default function Header() {
             <Link href="#classifica" className="text-gray-700 hover:text-blue-600 transition-colors">
               Classifica
             </Link>
-            <Link href="/admin" className="text-gray-700 hover:text-blue-600 transition-colors">
-              Admin
-            </Link>
           </nav>
           
           <div className="flex items-center gap-2">
