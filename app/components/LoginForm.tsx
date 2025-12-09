@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import ApiHelper from '../helpers/ApiHelper';
+import { LoginRequest } from '../models/Interfaces';
 
 export default function LoginForm() {
-  const [credentials, setCredentials] = useState({
+  const [credentials, setCredentials] = useState<LoginRequest>({
     username: '',
     password: ''
   });
@@ -18,16 +20,17 @@ export default function LoginForm() {
     setIsLoading(true);
 
     try {
-      if (credentials.username === 'admin' && credentials.password === 'catarbus2025') {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
+      if (credentials.username === '' && credentials.password === '') setError('Username o password mancanti');
+
+      const response = await ApiHelper.login(credentials);
+
+      if (response) {
         localStorage.setItem('catarbus_user', JSON.stringify({
           username: credentials.username,
-          role: 'admin',
           loginTime: new Date().toISOString()
         }));
-        
-        router.push('/admin');
+
+        router.push('/dashboard');
       } else {
         setError('Credenziali non valide');
       }
@@ -44,7 +47,7 @@ export default function LoginForm() {
         <span className="text-xl">🔐</span>
         <h2 className="text-lg font-semibold">Accesso Area Riservata</h2>
       </div>
-      
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
@@ -60,7 +63,7 @@ export default function LoginForm() {
             placeholder="Inserisci username"
           />
         </div>
-        
+
         <div>
           <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
             Password
@@ -90,7 +93,7 @@ export default function LoginForm() {
           {isLoading ? 'Accesso in corso...' : 'Accedi'}
         </button>
       </form>
-      
+
       <div className="mt-4 p-3 bg-blue-50 rounded-md">
         <p className="text-sm text-blue-700">
           <strong>Demo:</strong> admin / catarbus2025
