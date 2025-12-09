@@ -12,6 +12,7 @@ export default function Dashboard() {
     const [currentUserStatus, setCurrentUserStatus] = React.useState<any>(null);
     const [lastCheckpointString, setLastCheckpointString] = React.useState('Non disponibile');
     const [lastHelpString, setLastHelpString] = React.useState('Non disponibile');
+    const [calendlyKey, setCalendlyKey] = React.useState(0);
 
     React.useEffect(() => {
         // Accedi a localStorage solo dopo il mount del componente
@@ -39,6 +40,13 @@ export default function Dashboard() {
             setLastHelpString(lastHelp);
         }
     }, []);
+
+    // Forza il re-render del widget Calendly quando si passa al tab 2
+    React.useEffect(() => {
+        if (activeKey === '2') {
+            setCalendlyKey(prev => prev + 1);
+        }
+    }, [activeKey]);
 
     const handleSelect = (selectedKey: string | null) => {
         if (selectedKey) {
@@ -136,9 +144,15 @@ export default function Dashboard() {
         }
 
         return (
-            <div>
-                <div className="calendly-inline-widget" data-url="https://calendly.com/catarbus-organizzazione/30min?hide_gdpr_banner=1" style={{ minWidth: '320px', height: '700px' }}></div>
-                <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+            <div key={calendlyKey} className="mt-4">
+                <iframe 
+                    src="https://calendly.com/catarbus-organizzazione/30min?hide_gdpr_banner=1"
+                    width="100%" 
+                    height="700" 
+                    frameBorder="0"
+                    title="Prenota Aiuto"
+                    style={{ minWidth: '320px' }}
+                ></iframe>
             </div>
         )
     }
