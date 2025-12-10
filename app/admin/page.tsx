@@ -1,23 +1,41 @@
 "use client";
 
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ProtectedRoute from "../components/ProtectedRoute";
 
 export default function AdminPage() {
     const router = useRouter();
-    const userLevel = localStorage.getItem('catarbus_user') ? JSON.parse(localStorage.getItem('catarbus_user') || '{}').role : null;
+    const [userLevel, setUserLevel] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if (userLevel !== 'admin') {
+        // Accedi a localStorage solo dopo il mount del componente
+        const userStatus = localStorage.getItem('catarbus_user');
+        const role = userStatus ? JSON.parse(userStatus).role : null;
+        setUserLevel(role);
+        setIsLoading(false);
+
+        if (role !== 'admin') {
             // Reindirizza alla home dopo 2 secondi
             setTimeout(() => {
                 router.push('/?access=denied');
             }, 2000);
         }
-    }, [userLevel, router]);
+    }, [router]);
+
+    if (isLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+                    <p className="mt-4 text-gray-600">Verifica permessi...</p>
+                </div>
+            </div>
+        );
+    }
 
     if (userLevel !== 'admin') {
         return (
