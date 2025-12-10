@@ -3,6 +3,7 @@
 import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import ProtectedRoute from "../components/ProtectedRoute";
 import { Nav, NavDropdown } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { LoginResponse } from "../models/Interfaces";
@@ -160,16 +161,18 @@ export default function Dashboard() {
 
 
     return (
-        <div className="min-h-screen flex flex-col bg-gray-50">
+        <ProtectedRoute>
+            <div className="min-h-screen flex flex-col bg-gray-50">
 
-            <main className="flex-1 container mx-auto px-4 py-8">
-                {renderTabs()}
-                {activeKey === '1' && renderSection1()}
-                {activeKey === '2' && renderSection2()}
+                <main className="flex-1 container mx-auto px-4 py-8">
+                    {renderTabs()}
+                    {activeKey === '1' && renderSection1()}
+                    {activeKey === '2' && renderSection2()}
 
-            </main>
+                </main>
 
-            <Footer />
-        </div>
+                <Footer />
+            </div>
+        </ProtectedRoute>
     );
 }
