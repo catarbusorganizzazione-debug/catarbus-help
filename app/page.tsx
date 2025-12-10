@@ -1,35 +1,28 @@
 "use client";
 
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useState } from 'react';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Classifica from "./components/Classifica";
 import LoginForm from "./components/LoginForm";
+import AlertHandler from "./components/AlertHandler";
 
 export default function Home() {
-  const searchParams = useSearchParams();
   const [showLoginAlert, setShowLoginAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
-  useEffect(() => {
-    if (searchParams.get('login') === 'required') {
-      setShowLoginAlert(true);
-      // Rimuovi il parametro dall'URL dopo averlo mostrato
-      const url = new URL(window.location.href);
-      url.searchParams.delete('login');
-      window.history.replaceState({}, '', url.pathname);
-    } else if (searchParams.get('access') === 'denied') {
-      setShowLoginAlert(true);
-      // Rimuovi il parametro dall'URL dopo averlo mostrato
-      const url = new URL(window.location.href);
-      url.searchParams.delete('access');
-      window.history.replaceState({}, '', url.pathname);
-    }
-  }, [searchParams]);
+  const handleShowAlert = (message: string) => {
+    setAlertMessage(message);
+    setShowLoginAlert(true);
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Header />
+      
+      <Suspense fallback={<div>Loading...</div>}>
+        <AlertHandler onShowAlert={handleShowAlert} />
+      </Suspense>
       
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
@@ -44,9 +37,7 @@ export default function Home() {
                 </div>
                 <div className="ml-3">
                   <p className="text-sm text-yellow-800">
-                    <strong>Accesso richiesto:</strong> {searchParams.get('access') === 'denied' 
-                      ? 'Non hai i permessi necessari per accedere a questa sezione.' 
-                      : 'Devi effettuare il login per accedere a questa sezione.'}
+                    <strong>Accesso richiesto:</strong> {alertMessage}
                   </p>
                 </div>
                 <div className="ml-auto pl-3">
