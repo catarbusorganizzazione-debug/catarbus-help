@@ -23,3 +23,28 @@ export interface ApiError {
   message: string;
   error?: string;
 }
+
+export interface CheckpointRequest {
+  username: string;
+  checkpointId: string;
+}
+
+export interface CheckpointResponse {
+  success: boolean;
+  message: string;
+}
+
+export interface UserSearchResponse {
+  success: boolean;
+  message?: string;
+  user?: {
+    id: string;
+    user: string;
+    name: string;
+    role: 'admin' | 'team';
+    lastHelp?: Date;
+    lastMinorCheckpoint?: Date;
+    lastCheckpoint?: Date; //MAJOR
+    checkpointsCompleted?: number;
+  };
+}

@@ -7,6 +7,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import { Nav, NavDropdown } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { LoginResponse } from "../models/Interfaces";
+import ApiHelper from "../helpers/ApiHelper";
 
 export default function Dashboard() {
     const [activeKey, setActiveKey] = React.useState('1');
@@ -19,9 +20,31 @@ export default function Dashboard() {
         // Accedi a localStorage solo dopo il mount del componente
         const userStatus = JSON.parse(localStorage.getItem('catarbus_user') || 'null');
         setCurrentUserStatus(userStatus);
+    }, []);
 
-        if (userStatus) {
-            const lastCheckpoint = userStatus.lastCheckpoint ? new Date(userStatus.lastCheckpoint).toLocaleString('it-IT', {
+    // Effetto separato per la chiamata API quando userStatus è disponibile
+    React.useEffect(() => {
+        if (currentUserStatus && currentUserStatus.username) {
+            ApiHelper.searchUser(currentUserStatus.username).then(result => {
+                if (result.success) {
+                    console.log('User found:', result.user);
+                    setCurrentUserStatus((prev:any) => ({
+                        ...prev,
+                        checkpointsCompleted: result.user?.checkpointsCompleted,
+                        lastMinorCheckpoint: result.user?.lastMinorCheckpoint,
+                        lastCheckpoint: result.user?.lastCheckpoint
+                    }));
+                } else {
+                    console.error('User search failed:', result.message);
+                }
+            });
+        }
+    }, [currentUserStatus?.username]);
+
+    // Effetto separato per aggiornare le stringhe quando currentUserStatus cambia
+    React.useEffect(() => {
+        if (currentUserStatus) {
+            const lastCheckpoint = currentUserStatus.lastCheckpoint ? new Date(currentUserStatus.lastCheckpoint).toLocaleString('it-IT', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric',
@@ -29,7 +52,7 @@ export default function Dashboard() {
                 minute: '2-digit'
             }) : 'Non disponibile';
 
-            const lastHelp = userStatus.lastHelp ? new Date(userStatus.lastHelp).toLocaleString('it-IT', {
+            const lastHelp = currentUserStatus.lastHelp ? new Date(currentUserStatus.lastHelp).toLocaleString('it-IT', {
                 day: '2-digit',
                 month: '2-digit',
                 year: 'numeric',
@@ -40,7 +63,7 @@ export default function Dashboard() {
             setLastCheckpointString(lastCheckpoint);
             setLastHelpString(lastHelp);
         }
-    }, []);
+    }, [currentUserStatus]);
 
     // Forza il re-render del widget Calendly quando si passa al tab 2
     React.useEffect(() => {
@@ -146,10 +169,10 @@ export default function Dashboard() {
 
         return (
             <div key={calendlyKey} className="mt-4">
-                <iframe 
+                <iframe
                     src="https://calendly.com/catarbus-organizzazione/30min?hide_gdpr_banner=1"
-                    width="100%" 
-                    height="700" 
+                    width="100%"
+                    height="700"
                     frameBorder="0"
                     title="Prenota Aiuto"
                     style={{ minWidth: '320px' }}
@@ -163,6 +186,7 @@ export default function Dashboard() {
     return (
         <ProtectedRoute>
             <div className="min-h-screen flex flex-col bg-gray-50">
+                <Header />
 
                 <main className="flex-1 container mx-auto px-4 py-8">
                     {renderTabs()}

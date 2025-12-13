@@ -22,6 +22,15 @@ export default function Header() {
             <Link href="#classifica" className="text-gray-700 hover:text-blue-600 transition-colors">
               Classifica
             </Link>
+            <Link href="/checkpoint" className="text-gray-700 hover:text-blue-600 transition-colors">
+              Registra checkpoint
+            </Link>
+            <Link href="/verify-location" className="text-gray-700 hover:text-blue-600 transition-colors">
+              Verifica destinazione
+            </Link>
+            <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 transition-colors">
+              Dashboard
+            </Link>
           </nav>
           
           <div className="flex items-center gap-2">
