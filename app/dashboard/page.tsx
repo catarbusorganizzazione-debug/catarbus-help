@@ -44,21 +44,33 @@ export default function Dashboard() {
     // Effetto separato per aggiornare le stringhe quando currentUserStatus cambia
     React.useEffect(() => {
         if (currentUserStatus) {
-            const lastCheckpoint = currentUserStatus.lastCheckpoint ? new Date(currentUserStatus.lastCheckpoint).toLocaleString('it-IT', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            }) : 'Non disponibile';
+            const lastCheckpoint = currentUserStatus.lastCheckpoint ? (() => {
+                // Tratta la stringa come già locale, senza conversioni di fuso orario
+                const dateStr = currentUserStatus.lastCheckpoint;
+                const date = new Date(dateStr + (dateStr.includes('Z') ? '' : dateStr.includes('+') || dateStr.includes('T') ? '' : 'T00:00:00'));
+                // Forza l'interpretazione come ora locale
+                const localDate = new Date(date.getTime() + (date.getTimezoneOffset() * 60000));
+                const day = String(localDate.getDate()).padStart(2, '0');
+                const month = String(localDate.getMonth() + 1).padStart(2, '0');
+                const year = localDate.getFullYear();
+                const hours = String(localDate.getHours()).padStart(2, '0');
+                const minutes = String(localDate.getMinutes()).padStart(2, '0');
+                return `${day}/${month}/${year}, ${hours}:${minutes}`;
+            })() : 'Non disponibile';
 
-            const lastHelp = currentUserStatus.lastHelp ? new Date(currentUserStatus.lastHelp).toLocaleString('it-IT', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            }) : 'Non disponibile';
+            const lastHelp = currentUserStatus.lastHelp ? (() => {
+                // Tratta la stringa come già locale, senza conversioni di fuso orario
+                const dateStr = currentUserStatus.lastHelp;
+                const date = new Date(dateStr + (dateStr.includes('Z') ? '' : dateStr.includes('+') || dateStr.includes('T') ? '' : 'T00:00:00'));
+                // Forza l'interpretazione come ora locale
+                const localDate = new Date(date.getTime() + (date.getTimezoneOffset() * 60000));
+                const day = String(localDate.getDate()).padStart(2, '0');
+                const month = String(localDate.getMonth() + 1).padStart(2, '0');
+                const year = localDate.getFullYear();
+                const hours = String(localDate.getHours()).padStart(2, '0');
+                const minutes = String(localDate.getMinutes()).padStart(2, '0');
+                return `${day}/${month}/${year}, ${hours}:${minutes}`;
+            })() : 'Non disponibile';
 
             setLastCheckpointString(lastCheckpoint);
             setLastHelpString(lastHelp);
