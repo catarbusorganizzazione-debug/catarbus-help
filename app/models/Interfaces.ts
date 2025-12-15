@@ -32,6 +32,7 @@ export interface CheckpointRequest {
 export interface CheckpointResponse {
   success: boolean;
   message: string;
+  data: any;
 }
 
 export interface UserSearchResponse {

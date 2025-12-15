@@ -118,7 +118,8 @@ class ApiHelper {
 
       return {
         success: true,
-        message: checkpointData.message || 'Checkpoint registrato con successo'
+        message: checkpointData.message || 'Checkpoint registrato con successo',
+        data: checkpointData.result
       };
 
     } catch (error) {

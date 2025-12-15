@@ -7,6 +7,10 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 export default function CheckpointPage() {
+    // Recupera username dell'utente loggato
+    const userData = JSON.parse(localStorage.getItem('catarbus_user') || '{}');
+    const loggedUsername = userData.username;
+
     const [formData, setFormData] = useState<CheckpointRequest>({
         username: '',
         checkpointId: ''
@@ -15,6 +19,7 @@ export default function CheckpointPage() {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<string>('');
     const [isError, setIsError] = useState(false);
+    const [checkpointContent, setCheckpointContent] = useState<any>(null);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -43,6 +48,17 @@ export default function CheckpointPage() {
             if (result.success) {
                 setMessage(result.message);
                 setIsError(false);
+
+                // Mostra popup se ci sono dati aggiuntivi per l'utente loggato
+                if (result.data && loggedUsername && result.data) {
+                    const userDataContent = result.data;
+                    
+                    if (userDataContent) {
+                        // Salva i dati per il rendering nel componente
+                        setCheckpointContent(userDataContent);
+                    }                   
+                }
+
                 // Reset form dopo successo
                 setFormData({
                     username: '',
@@ -60,10 +76,56 @@ export default function CheckpointPage() {
         }
     };
 
+    const renderCheckpointContent = () => {
+        if (!checkpointContent) return null;
+
+        return (
+            <div className="mt-6 bg-white rounded-lg shadow-lg p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Materiale Sbloccato</h3>
+
+                {checkpointContent.data && (
+                    <div className="mb-4">
+                        <h4 className="font-semibold text-gray-800 mb-3">Contenuto Multimediale:</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {checkpointContent.isMessageType && (
+                                <div className="bg-gray-100 rounded-lg p-3">
+                                    <p className="text-sm text-gray-600">
+                                        <strong>{checkpointContent.message}</strong>
+                                    </p>
+                                </div>
+                            )}
+                            {(checkpointContent.isGenericUrl || checkpointContent.isGenericPhoto) && (
+                                <div className="bg-gray-100 rounded-lg p-3">
+                                    <p className="text-sm text-gray-600">
+                                        <a href={checkpointContent.isGenericUrl ? checkpointContent.url : checkpointContent.photo} target="_blank">CLICCA QUI</a>
+                                    </p>
+                                </div>
+                            )}
+                            {(checkpointContent.isSpecificUrl || checkpointContent.isSpecificPhoto) && (
+                                <div className="bg-gray-100 rounded-lg p-3">
+                                    <p className="text-sm text-gray-600">
+                                        <a href={checkpointContent.data[loggedUsername]} target="_blank">CLICCA QUI</a>
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+
+                <button
+                    onClick={() => setCheckpointContent(null)}
+                    className="mt-4 px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
+                >
+                    Chiudi
+                </button>
+            </div>
+        );
+    };
+
     return (
         <>
             <Header />
-                <div className="min-h-screen bg-gray-100 flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
+            <div className="min-h-screen bg-gray-100 flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-md w-full space-y-8">
                     <div>
                         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -110,21 +172,6 @@ export default function CheckpointPage() {
                             </div>
                         </div>
 
-                        {message && (
-                            <div className={`rounded-md p-4 ${isError ? 'bg-red-50 text-red-800' : 'bg-green-50 text-green-800'}`}>
-                                <div className="flex">
-                                    <div className="ml-3">
-                                        <h3 className="text-sm font-medium">
-                                            {isError ? 'Errore' : 'Successo'}
-                                        </h3>
-                                        <div className="mt-2 text-sm">
-                                            <p>{message}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
                         <div>
                             <button
                                 type="submit"
@@ -135,6 +182,8 @@ export default function CheckpointPage() {
                             </button>
                         </div>
                     </form>
+
+                    {renderCheckpointContent()}
                 </div>
             </div>
             <Footer />
