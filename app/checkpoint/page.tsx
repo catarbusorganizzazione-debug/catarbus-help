@@ -5,6 +5,7 @@ import { CheckpointRequest, CheckpointResponse, ApiError } from '../models/Inter
 import ApiHelper from '../helpers/ApiHelper';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import ProtectedRoute from '../components/ProtectedRoute';
 
 export default function CheckpointPage() {
     // Recupera username dell'utente loggato
@@ -123,7 +124,7 @@ export default function CheckpointPage() {
     };
 
     return (
-        <>
+        <ProtectedRoute>
             <Header />
             <div className="min-h-screen bg-gray-100 flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-md w-full space-y-8">
@@ -187,6 +188,6 @@ export default function CheckpointPage() {
                 </div>
             </div>
             <Footer />
-        </>
+        </ProtectedRoute>
     );
 }
