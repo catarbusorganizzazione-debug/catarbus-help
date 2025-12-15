@@ -8,8 +8,8 @@ import Footer from '../components/Footer';
 
 export default function CheckpointPage() {
     // Recupera username dell'utente loggato
-    const userData = JSON.parse(localStorage.getItem('catarbus_user') || '{}');
-    const loggedUsername = userData.username;
+    const loggedUsername = typeof window !== 'undefined' ?
+        JSON.parse(localStorage.getItem('catarbus_user') || '{}') : {};
 
     const [formData, setFormData] = useState<CheckpointRequest>({
         username: '',
@@ -52,11 +52,11 @@ export default function CheckpointPage() {
                 // Mostra popup se ci sono dati aggiuntivi per l'utente loggato
                 if (result.data && loggedUsername && result.data) {
                     const userDataContent = result.data;
-                    
+
                     if (userDataContent) {
                         // Salva i dati per il rendering nel componente
                         setCheckpointContent(userDataContent);
-                    }                   
+                    }
                 }
 
                 // Reset form dopo successo
