@@ -49,3 +49,15 @@ export interface UserSearchResponse {
     checkpointsCompleted?: number;
   };
 }
+
+export interface RankingUser {
+  name: string;
+  colour: string;
+  checkpointsCompleted: number;
+}
+
+export interface RankingResponse {
+  success: boolean;
+  message?: string;
+  ranking?: RankingUser[];
+}

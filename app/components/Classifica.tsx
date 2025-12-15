@@ -1,26 +1,37 @@
-// Mock data temporaneo
-const mockTeams = [
-  { id: "1", name: "Squadra Rossa", color: "#ef4444", completedCheckpoints: [1,2,3], lastUpdate: new Date() },
-  { id: "2", name: "Squadra Blu", color: "#3b82f6", completedCheckpoints: [1,2,3,4], lastUpdate: new Date() },
-  { id: "3", name: "Squadra Verde", color: "#10b981", completedCheckpoints: [1,2], lastUpdate: new Date() },
-  { id: "4", name: "Squadra Gialla", color: "#f59e0b", completedCheckpoints: [1,2,3,4,5], lastUpdate: new Date() },
-  { id: "5", name: "Squadra Viola", color: "#8b5cf6", completedCheckpoints: [1], lastUpdate: new Date() }
-];
+'use client';
 
-const mockCheckpoints = [
-  { id: 1, name: "Partenza" },
-  { id: 2, name: "Prima Tappa" },
-  { id: 3, name: "Seconda Tappa" },
-  { id: 4, name: "Terza Tappa" },
-  { id: 5, name: "Quarta Tappa" },
-  { id: 6, name: "Arrivo" }
-];
-
-const mockGameState = { teams: mockTeams, checkpoints: mockCheckpoints };
+import React, { useState, useEffect } from 'react';
+import ApiHelper from '../helpers/ApiHelper';
+import { RankingUser } from '../models/Interfaces';
 
 export default function Classifica() {
-  const sortedTeams = mockGameState.teams
-    .sort((a: any, b: any) => b.completedCheckpoints.length - a.completedCheckpoints.length);
+  const [teams, setTeams] = useState<RankingUser[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string>('');
+
+  useEffect(() => {
+    const fetchRanking = async () => {
+      try {
+        setLoading(true);
+        const result = await ApiHelper.getUsersRanking();
+        
+        if (result.success && result.ranking) {
+          setTeams(result.ranking);
+        } else {
+          setError(result.message || 'Errore nel caricamento della classifica');
+        }
+      } catch (err) {
+        setError('Errore di connessione');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRanking();
+  }, []);
+
+  const sortedTeams = teams
+    .sort((a, b) => b.checkpointsCompleted - a.checkpointsCompleted);
 
   const getPositionIcon = (index: number) => {
     switch (index) {
@@ -31,9 +42,33 @@ export default function Classifica() {
     }
   };
 
-  const getProgressPercentage = (completedCheckpoints: number) => {
-    return Math.round((completedCheckpoints / mockGameState.checkpoints.length) * 100);
-  };
+  if (loading) {
+    return (
+      <div id="classifica" className="bg-white rounded-lg shadow-md p-6">
+        <div className="flex items-center gap-2 mb-6">
+          <span className="text-xl">🏆</span>
+          <h2 className="text-xl font-semibold">Classifica Live</h2>
+        </div>
+        <div className="text-center py-8">
+          <div className="text-gray-500">Caricamento classifica...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div id="classifica" className="bg-white rounded-lg shadow-md p-6">
+        <div className="flex items-center gap-2 mb-6">
+          <span className="text-xl">🏆</span>
+          <h2 className="text-xl font-semibold">Classifica Live</h2>
+        </div>
+        <div className="text-center py-8 text-red-600">
+          {error}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div id="classifica" className="bg-white rounded-lg shadow-md p-6">
@@ -46,9 +81,9 @@ export default function Classifica() {
       </div>
 
       <div className="space-y-4">
-        {sortedTeams.map((team: any, index: number) => (
+        {sortedTeams.map((team, index: number) => (
           <div 
-            key={team.id} 
+            key={team.name} 
             className="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
           >
             <div className="flex items-center gap-4 flex-1">
@@ -58,40 +93,25 @@ export default function Classifica() {
               
               <div 
                 className="w-4 h-4 rounded-full"
-                style={{ backgroundColor: team.color }}
+                style={{ backgroundColor: team.colour }}
               ></div>
               
               <div className="flex-1">
                 <h3 className="font-medium text-gray-900">{team.name}</h3>
                 <p className="text-sm text-gray-600">
-                  {team.completedCheckpoints.length}/{mockGameState.checkpoints.length} checkpoint completati
+                  Checkpoint completati
                 </p>
               </div>
             </div>
             
             <div className="text-right">
               <div className="text-lg font-bold text-blue-600">
-                {getProgressPercentage(team.completedCheckpoints.length)}%
-              </div>
-              <div className="text-xs text-gray-500">
-                Ultimo: {team.lastUpdate.toLocaleTimeString('it-IT')}
+                {team.checkpointsCompleted}
               </div>
             </div>
           </div>
         ))}
       </div>
-
-      {/* <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-        <h3 className="font-medium text-gray-900 mb-3">Checkpoint di Gioco</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-          {mockGameState.checkpoints.map((checkpoint: any) => (
-            <div key={checkpoint.id} className="flex items-center gap-2 text-sm">
-              <span>🧢</span>
-              <span className="text-gray-700">{checkpoint.name}</span>
-            </div>
-          ))}
-        </div>
-      </div> */}
     </div>
   );
 }

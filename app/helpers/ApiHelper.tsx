@@ -1,4 +1,4 @@
-import { ApiError, LoginRequest, LoginResponse, CheckpointRequest, CheckpointResponse, UserSearchResponse } from "../models/Interfaces";
+import { ApiError, LoginRequest, LoginResponse, CheckpointRequest, CheckpointResponse, UserSearchResponse, RankingResponse } from "../models/Interfaces";
 import { Constants } from "./Constants";
 
 // Utility per calcolare SHA256
@@ -158,6 +158,40 @@ class ApiHelper {
 
     } catch (error) {
       console.error('User search error:', error);
+      return {
+        success: false,
+        message: 'Errore di connessione al server'
+      };
+    }
+  }
+
+  static async getUsersRanking(): Promise<RankingResponse | ApiError> {
+    try {
+      const response = await fetch(`${Constants.API_BASE_URI}/users/ranking`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = (await response.json()).data;
+
+      if (!response.ok) {
+        return {
+          success: false,
+          message: data.message || 'Errore durante il recupero della classifica',
+          error: data.error
+        };
+      }
+
+      return {
+        success: true,
+        message: data.message,
+        ranking: data.ranking
+      };
+
+    } catch (error) {
+      console.error('Ranking fetch error:', error);
       return {
         success: false,
         message: 'Errore di connessione al server'
