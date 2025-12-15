@@ -29,10 +29,22 @@ export interface CheckpointRequest {
   checkpointId: string;
 }
 
+export interface LocationRequest {
+  username: string;
+  provaId: string;
+  destination: string;
+}
+
 export interface CheckpointResponse {
   success: boolean;
   message: string;
   data: any;
+}
+
+export interface LocationResponse {
+  success: boolean;
+  check: boolean;
+  message: string;
 }
 
 export interface UserSearchResponse {

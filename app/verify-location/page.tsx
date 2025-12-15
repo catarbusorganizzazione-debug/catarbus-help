@@ -1,21 +1,23 @@
 'use client';
 
 import React, { useState } from 'react';
-import { CheckpointRequest, CheckpointResponse, ApiError } from '../models/Interfaces';
+import { CheckpointRequest, CheckpointResponse, ApiError, LocationRequest } from '../models/Interfaces';
 import ApiHelper from '../helpers/ApiHelper';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProtectedRoute from '../components/ProtectedRoute';
 
 export default function CheckpointPage() {
-    const [formData, setFormData] = useState<CheckpointRequest>({
+    const [formData, setFormData] = useState<LocationRequest>({
         username: '',
-        checkpointId: ''
+        provaId: '',
+        destination: ''
     });
 
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<string>('');
     const [isError, setIsError] = useState(false);
+    const [verifiedDestinationCheck, setVerifiedDestinationCheck] = useState(false);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -29,7 +31,7 @@ export default function CheckpointPage() {
         e.preventDefault();
 
         // Validazione
-        if (!formData.username.trim() || !formData.checkpointId.trim()) {
+        if (!formData.username.trim() || !formData.provaId.trim() || !formData.destination.trim()) {
             setMessage('Tutti i campi sono obbligatori');
             setIsError(true);
             return;
@@ -39,22 +41,24 @@ export default function CheckpointPage() {
         setMessage('');
 
         try {
-            const result = await ApiHelper.registerCheckpoint(formData);
+            const result = await ApiHelper.verifyLocation(formData);
 
             if (result.success) {
+                setVerifiedDestinationCheck(result.check);
                 setMessage(result.message);
                 setIsError(false);
                 // Reset form dopo successo
                 setFormData({
                     username: '',
-                    checkpointId: ''
+                    provaId: '',
+                    destination: ''
                 });
             } else {
                 setMessage(result.message);
                 setIsError(true);
             }
         } catch (error) {
-            setMessage('Errore durante la registrazione del checkpoint');
+            setMessage('Errore durante la verifica della location');
             setIsError(true);
         } finally {
             setLoading(false);
@@ -64,14 +68,15 @@ export default function CheckpointPage() {
     return (
         <ProtectedRoute>
             <Header />
-                <div className="min-h-screen bg-gray-100 flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
+            <div className="min-h-screen bg-gray-100 flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-md w-full space-y-8">
                     <div>
                         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                            Registra Checkpoint
+                            Verifica destinazione
                         </h2>
                         <p className="mt-2 text-center text-sm text-gray-600">
-                            Inserisci i dati per registrare un checkpoint
+                            Inserisci i dati per verificare una destinazione<br />
+                            (valido solo per le mete oltre il confine del centro abitato)
                         </p>
                     </div>
 
@@ -94,17 +99,33 @@ export default function CheckpointPage() {
                                 />
                             </div>
                             <div>
-                                <label htmlFor="checkpointId" className="sr-only">
-                                    ID Checkpoint
+                                <label htmlFor="provaId" className="sr-only">
+                                    ID Prova (lo trovi nel faldone)
                                 </label>
                                 <input
-                                    id="checkpointId"
-                                    name="checkpointId"
+                                    id="provaId"
+                                    name="provaId"
                                     type="text"
                                     required
                                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                    placeholder="ID del checkpoint"
-                                    value={formData.checkpointId}
+                                    placeholder="ID della prova"
+                                    value={formData.provaId}
+                                    onChange={handleInputChange}
+                                    disabled={loading}
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="destination" className="sr-only">
+                                    Destinazione
+                                </label>
+                                <input
+                                    id="destination"
+                                    name="destination"
+                                    type="text"
+                                    required
+                                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                    placeholder="Destinazione"
+                                    value={formData.destination}
                                     onChange={handleInputChange}
                                     disabled={loading}
                                 />
@@ -112,15 +133,15 @@ export default function CheckpointPage() {
                         </div>
 
                         {message && (
-                            <div className={`rounded-md p-4 ${isError ? 'bg-red-50 text-red-800' : 'bg-green-50 text-green-800'}`}>
+                            <div className={`rounded-md p-4 ${(isError || !verifiedDestinationCheck) ? 'bg-red-50 text-red-800' : 'bg-green-50 text-green-800'}`}>
                                 <div className="flex">
                                     <div className="ml-3">
                                         <h3 className="text-sm font-medium">
-                                            {isError ? 'Errore' : 'Successo'}
+                                            {(isError) ? 'Errore' : !verifiedDestinationCheck ? `ALT! Per questa prova non devi andare alla destinazione da te indicata` : `Destinazione confermata per questa prova`}
                                         </h3>
-                                        <div className="mt-2 text-sm">
+                                        {isError && <div className="mt-2 text-sm">
                                             <p>{message}</p>
-                                        </div>
+                                        </div>}
                                     </div>
                                 </div>
                             </div>

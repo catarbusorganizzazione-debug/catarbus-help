@@ -1,4 +1,4 @@
-import { ApiError, LoginRequest, LoginResponse, CheckpointRequest, CheckpointResponse, UserSearchResponse, RankingResponse } from "../models/Interfaces";
+import { ApiError, LoginRequest, LoginResponse, CheckpointRequest, CheckpointResponse, UserSearchResponse, RankingResponse, LocationRequest, LocationResponse } from "../models/Interfaces";
 import { Constants } from "./Constants";
 
 // Utility per calcolare SHA256
@@ -124,6 +124,48 @@ class ApiHelper {
 
     } catch (error) {
       console.error('Checkpoint registration error:', error);
+      return {
+        success: false,
+        message: 'Errore di connessione al server'
+      };
+    }
+  }
+
+  static async verifyLocation(request: LocationRequest): Promise<LocationResponse | ApiError> {
+    try {
+      const userData = JSON.parse(localStorage.getItem('catarbus_user') || '{}');
+
+      if(!userData || !userData.username) {
+        return {
+          success: false,
+          message: 'Utente non autenticato'
+        };
+      }
+
+      const checkLocation = await fetch(`${Constants.API_BASE_URI}/verify?provaId=${request.provaId}&username=${userData.username}&location=${request.destination}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const checkLocationData = (await checkLocation.json()).data;
+
+      if (!checkLocationData) {
+        return {
+          success: false,
+          message: 'Errore durante la verifica della location'
+        };
+      }
+
+      return {
+        success: true,
+        check: checkLocationData.verified,
+        message: 'Verifica effettuata con successo.'
+      };
+
+    } catch (error) {
+      console.error('Destination check error:', error);
       return {
         success: false,
         message: 'Errore di connessione al server'
