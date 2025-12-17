@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import Classifica from "./components/Classifica";
 import LoginForm from "./components/LoginForm";
 import AlertHandler from "./components/AlertHandler";
+import "./components/components.scss";
 
 export default function Home() {
   const [showLoginAlert, setShowLoginAlert] = useState(false);
@@ -24,7 +25,7 @@ export default function Home() {
         <AlertHandler onShowAlert={handleShowAlert} />
       </Suspense>
       
-      <main className="flex-1 container mx-auto px-4 py-8">
+      <main className="">
         <div className="max-w-6xl mx-auto">
           {/* Alert per login richiesto */}
           {showLoginAlert && (
@@ -59,17 +60,14 @@ export default function Home() {
           
           {/* Hero Section */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Benvenuto nel Portale CAT Arbus
-            </h1>
             {/* <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Segui in tempo reale i progressi delle squadre e monitora i checkpoint raggiunti 
               durante il gioco. Accedi all'area riservata per gestire l'evento.
-            </p> */}
+            </p> 
             <div className="mt-6 flex items-center justify-center gap-2 text-green-600">
               <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
               <span className="font-medium">Gioco in corso - Aggiornamenti live</span>
-            </div>
+            </div>*/}
           </div>
 
           {/* Main Content Grid */}

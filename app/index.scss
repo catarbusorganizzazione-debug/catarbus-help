@@ -1,0 +1,13 @@
+
+/* src/index.css */
+@font-face {
+  font-family: 'Rustico';
+  src: url('/asset/font/Rustico.woff') format('woff');
+  font-weight: 400;       /* cambia se hai varianti */
+  font-style: normal;     /* o italic se presente */
+  font-display: swap;
+}
+
+body{
+  font-family: cursive;
+}

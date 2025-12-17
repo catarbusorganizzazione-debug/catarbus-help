@@ -53,7 +53,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
+    <div className="bg-white rounded-lg shadow-md p-6 loginForm">
       <div className="flex items-center gap-2 mb-4">
         <span className="text-xl">🔐</span>
         <h2 className="text-lg font-semibold">Accesso Area Riservata</h2>
