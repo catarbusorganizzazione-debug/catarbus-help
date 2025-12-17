@@ -105,7 +105,7 @@ export default function Classifica() {
             </div>
             
             <div className="text-right">
-              <div className="text-lg font-bold text-blue-600">
+              <div className="text-lg font-bold text-black-600">
                 {team.checkpointsCompleted}
               </div>
             </div>

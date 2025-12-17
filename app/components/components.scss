@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
+body {
+    font-family: "Special Elite", system-ui;
+
+    .min-h-screen {
+
+        background-image: url("../asset/homepage-background.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+
+        header {
+            background: #0000008a;
+            color: white;
+            font-weight: 700;
+            border: none;
+            min-height: 135px;
+            display: flex;
+            align-items: center;
+
+
+
+            .title{
+                @media (max-width: 1200px) {
+                    &{
+                        display: none;
+                    }
+                }
+            }
+
+            @media (max-width: 1200px) {
+
+                .justify-between{
+                    //flex-direction: column;
+                    gap: 15px;
+                    justify-content: center!important;
+                }
+            }
+
+            h1 {
+                font-size: 2.3rem;
+            }
+
+            a {
+                color: white;
+                text-decoration: none;
+                font-size: 1.2rem;
+            }
+
+            p {
+                color: white;
+                text-decoration: none;
+                margin-bottom: 0px;
+                font-size: 1.3rem;
+                font-weight: 800;
+            }
+
+            img {
+                width: 85px;
+                height: auto;
+            }
+        }
+
+        footer {
+            background: #0000008a;
+            color: white;
+            font-weight: 700;
+
+            @media (max-width: 765px) {
+                &{
+                    text-align: center;
+                }
+                .items-center{
+                    justify-content: center;
+
+                }
+
+                img{
+                    display: none;
+                }
+
+                h3{
+                    font-size: 20px;
+                }
+            }
+
+            a {
+                color: white;
+                text-decoration: none;
+            }
+
+            p {
+                color: white;
+                text-decoration: none;
+            }
+
+            img {
+                width: 85px;
+                height: auto;
+            }
+        }
+
+        main {
+            padding: 50px;
+            margin-top: auto;
+            margin-bottom: auto;
+            .info {
+                margin-bottom: 50px;
+                margin-top: 50px;
+                font-weight: 700;
+
+                h5 {
+                    text-align: center;
+                    font-size: 25px;
+                    font-weight: 500;
+                }
+
+                .utenteInfo {
+                    width: 50%;
+                    background-color: #e6e6e6;
+                    border-radius: 8px;
+                    padding: 30px;
+                    font-size: 22px;
+                    margin: auto;
+
+                    @media only screen and (max-width: 1025px) {
+                        &{
+                           font-size: 16px;
+                        }
+                    }
+
+                    svg {
+                        width: 25px;
+                    }
+
+                    .card-header{
+                        margin-bottom: 25px;
+                    }
+
+                    .item-info {
+                        display: flex;
+                        align-items: center;
+                        gap: 20px;
+                        font-weight: 300;
+                        justify-content: space-between;
+                        margin-bottom: 15px;
+
+                        .label {
+                            display: flex;
+                            align-items: center;
+                            gap: 5px;
+                            font-weight: 800;
+                        }
+
+                        .text-muted{
+                            text-align: right;
+                        }
+                    }
+                }
+            }
+
+            .calendar {
+                margin-bottom: 50px;
+                margin-top: 50px;
+            }
+
+            iframe {
+                border-radius: 8px;
+            }
+        }
+
+        .loginForm{
+             button{
+                background-color: #671b05;
+             }
+        }
+    }
+}

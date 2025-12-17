@@ -2,16 +2,16 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200">
+    <header className="shadow-sm border-b border-gray-200">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 logoCAT">
             <span>
                 <img src='/logo-CAT-tondo.png' alt='Logo CAT Arbus' className='w-8 h-8' />
             </span>
-            <div>
-              <h1 className="text-xl font-bold text-gray-900">CAT Arbus</h1>
-              <p className="text-sm text-gray-600">Sa Trattativa</p>
+            <div className="title">
+              <h1 className="">CAT Arbus</h1>
+              <p className="text-sm text-gray-600"><em>Sa Trattativa</em></p>
             </div>
           </div>
           
@@ -33,10 +33,10 @@ export default function Header() {
             </Link>
           </nav>
           
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
             <span className="text-sm text-gray-600">Live</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </header>

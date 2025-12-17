@@ -8,6 +8,7 @@ import { Nav, NavDropdown } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { LoginResponse } from "../models/Interfaces";
 import ApiHelper from "../helpers/ApiHelper";
+import "../components/components.scss";
 
 export default function Dashboard() {
     const [activeKey, setActiveKey] = React.useState('1');
@@ -28,7 +29,7 @@ export default function Dashboard() {
             ApiHelper.searchUser(currentUserStatus.username).then(result => {
                 if (result.success) {
                     console.log('User found:', result.user);
-                    setCurrentUserStatus((prev:any) => ({
+                    setCurrentUserStatus((prev: any) => ({
                         ...prev,
                         checkpointsCompleted: result.user?.checkpointsCompleted,
                         lastMinorCheckpoint: result.user?.lastMinorCheckpoint,
@@ -109,48 +110,58 @@ export default function Dashboard() {
 
     const renderSection1 = () => {
         return (
-            <div className="mt-4">
-                <div className="row">
-                    <div className="col-md-6">
-                        <div className="card mb-3">
-                            <div className="card-header">
-                                <h5 className="mb-0">Informazioni Utente</h5>
+            <div className="utenteInfo">
+                <div className="card-header col-12">
+                    <h5 className="mb-0">INFO SQUADRA</h5>
+                </div>
+                <div className="card-body">
+                    <div className="item-info">
+                        <div className="label">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-people-fill" viewBox="0 0 16 16">
+                                <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
+                            </svg>
+                            <span>Squadra:</span>
+                        </div>
+                        <div className="text-muted"><em>{currentUserStatus?.name}</em></div>
+                    </div>
+                    <div className="item-info">
+                        <div className="label">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                            </svg>
+                            <span>Checkpoint:</span>
+                        </div>
+                        <div className="text-muted"><em>{currentUserStatus?.checkpointsCompleted}</em></div>
+                    </div>
+
+                    <div className="card-body">
+                        <div className="item-info">
+                            <div className="label">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2" />
+                                </svg>
+                                <span>Ultimo indizio ricevuto:</span>
                             </div>
-                            <div className="card-body">
-                                <div className="mb-3">
-                                    <strong>Nome utente:</strong>
-                                    <div className="text-muted">{currentUserStatus?.name}</div>
-                                </div>
-                                <div className="mb-3">
-                                    <strong>Checkpoint superati:</strong>
-                                    <div className="text-success fs-4">{currentUserStatus?.checkpointsCompleted}</div>
-                                </div>
+                            <div className="text-muted">
+                               <em>{lastHelpString}</em> 
                             </div>
                         </div>
-                    </div>
-                    <div className="col-md-6">
-                        <div className="card mb-3">
-                            <div className="card-header">
-                                <h5 className="mb-0">Attività Recenti</h5>
+                        <div className="item-info">
+                            <div className="label">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-envelope-paper-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M6.5 9.5 3 7.5v-6A1.5 1.5 0 0 1 4.5 0h7A1.5 1.5 0 0 1 13 1.5v6l-3.5 2L8 8.75zM1.059 3.635 2 3.133v3.753L0 5.713V5.4a2 2 0 0 1 1.059-1.765M16 5.713l-2 1.173V3.133l.941.502A2 2 0 0 1 16 5.4zm0 1.16-5.693 3.337L16 13.372v-6.5Zm-8 3.199 7.941 4.412A2 2 0 0 1 14 16H2a2 2 0 0 1-1.941-1.516zm-8 3.3 5.693-3.162L0 6.873v6.5Z" />
+                                </svg>
+                                <span>Ultima prova ricevuta:</span>
                             </div>
-                            <div className="card-body">
-                                <div className="mb-3">
-                                    <strong>Ultimo indizio ricevuto:</strong>
-                                    <div className="text-muted">
-                                        {lastHelpString}
-                                    </div>
-                                </div>
-                                <div className="mb-3">
-                                    <strong>Ultima prova ricevuta:</strong>
-                                    <div className="text-muted">
-                                        {lastCheckpointString}
-                                    </div>
-                                </div>
+                            <div className="text-muted">
+                                <em>{lastCheckpointString}</em>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
+
         )
     }
 
@@ -179,32 +190,47 @@ export default function Dashboard() {
             );
         }
 
+        let height = "";
+
+        if(window.innerWidth > 520 && innerWidth < 1024){
+            height = "900px";
+            
+        }else if(window.innerWidth > 520 ){
+            height = "830px";
+
+        }else{
+            height = "540px";
+
+        }
+
         return (
-            <div key={calendlyKey} className="mt-4">
+            <div key={calendlyKey} className="">
                 <iframe
-                    src="https://calendly.com/catarbus-organizzazione/30min?hide_gdpr_banner=1"
+                    src="https://calendly.com/catarbus-organizzazione/30min?background_color=transparent0&primary_color=000000&hide_gdpr_banner=1"
                     width="100%"
-                    height="700"
+                    height={height}
                     frameBorder="0"
                     title="Prenota Aiuto"
-                    style={{ minWidth: '320px' }}
+
+                    style={{ minWidth: '320px', background: 'transparent'}}
                 ></iframe>
             </div>
         )
     }
-
-
 
     return (
         <ProtectedRoute>
             <div className="min-h-screen flex flex-col bg-gray-50">
                 <Header />
 
-                <main className="flex-1 container mx-auto px-4 py-8">
-                    {renderTabs()}
-                    {activeKey === '1' && renderSection1()}
-                    {activeKey === '2' && renderSection2()}
-
+                <main className="flex-1 container">
+                    <div className="info">
+                        {renderSection1()}
+                    </div>
+                    <div className="calendar">
+                        {renderSection2()}
+                    </div>
+                    
                 </main>
 
                 <Footer />
@@ -212,3 +238,21 @@ export default function Dashboard() {
         </ProtectedRoute>
     );
 }
+
+//     return (
+//         <ProtectedRoute>
+//             <div className="min-h-screen flex flex-col bg-gray-50">
+//                 <Header />
+
+//                 <main className="flex-1 container">
+//                     {renderTabs()}
+//                     {activeKey === '1' && renderSection1()}
+//                     {activeKey === '2' && renderSection2()}
+
+//                 </main>
+
+//                 <Footer />
+//             </div>
+//         </ProtectedRoute>
+//     );
+// }
