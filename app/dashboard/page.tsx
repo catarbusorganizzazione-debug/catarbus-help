@@ -192,15 +192,20 @@ export default function Dashboard() {
 
         let height = "";
 
-        if(window.innerWidth > 520 && innerWidth < 1024){
-            height = "900px";
-            
-        }else if(window.innerWidth > 520 ){
+        if (typeof window !== 'undefined') {
+            if(window.innerWidth > 520 && window.innerWidth < 1024){
+                height = "900px";
+                
+            }else if(window.innerWidth > 520 ){
+                height = "830px";
+
+            }else{
+                height = "540px";
+
+            }
+        } else {
+            // Default height for server-side rendering
             height = "830px";
-
-        }else{
-            height = "540px";
-
         }
 
         return (
