@@ -10,7 +10,7 @@ import ProtectedRoute from '../components/ProtectedRoute';
 export default function CheckpointPage() {
     // Recupera username dell'utente loggato
     const loggedUsername = typeof window !== 'undefined' ?
-        JSON.parse(localStorage.getItem('catarbus_user') || '{}') : {};
+        JSON.parse(sessionStorage.getItem('catarbus_user') || '{}') : {};
 
     const [formData, setFormData] = useState<CheckpointRequest>({
         username: '',

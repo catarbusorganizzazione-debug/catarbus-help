@@ -1,4 +1,4 @@
-import { ApiError, LoginRequest, LoginResponse, CheckpointRequest, CheckpointResponse, UserSearchResponse, RankingResponse, LocationRequest, LocationResponse } from "../models/Interfaces";
+import { ApiError, LoginRequest, LoginResponse, CheckpointRequest, CheckpointResponse, UserSearchResponse, RankingResponse, LocationRequest, LocationResponse, UsersResponse } from "../models/Interfaces";
 import { Constants } from "./Constants";
 
 // Utility per calcolare SHA256
@@ -56,7 +56,7 @@ class ApiHelper {
 
   static async registerCheckpoint(request: CheckpointRequest): Promise<CheckpointResponse | ApiError> {
     try {
-      const userData = JSON.parse(localStorage.getItem('catarbus_user') || '{}');
+      const userData = JSON.parse(sessionStorage.getItem('catarbus_user') || '{}');
 
       if(!userData || !userData.username) {
         return {
@@ -133,7 +133,7 @@ class ApiHelper {
 
   static async verifyLocation(request: LocationRequest): Promise<LocationResponse | ApiError> {
     try {
-      const userData = JSON.parse(localStorage.getItem('catarbus_user') || '{}');
+      const userData = JSON.parse(sessionStorage.getItem('catarbus_user') || '{}');
 
       if(!userData || !userData.username) {
         return {
@@ -234,6 +234,40 @@ class ApiHelper {
 
     } catch (error) {
       console.error('Ranking fetch error:', error);
+      return {
+        success: false,
+        message: 'Errore di connessione al server'
+      };
+    }
+  }
+
+  static async getAllUsers(): Promise<UsersResponse | ApiError> {
+    try {
+      const response = await fetch(`${Constants.API_BASE_URI}/users`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = (await response.json());
+
+      if (!response.ok) {
+        return {
+          success: false,
+          message: data.message || 'Errore durante il recupero degli utenti',
+          error: data.error
+        };
+      }
+
+      return {
+        success: true,
+        message: data.message,
+        users: data.users
+      };
+
+    } catch (error) {
+      console.error('Users fetch error:', error);
       return {
         success: false,
         message: 'Errore di connessione al server'

@@ -15,8 +15,8 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   useEffect(() => {
     const checkAuth = () => {
       try {
-        // const userToken = localStorage.getItem('catarbus_token');
-        const userStatus = localStorage.getItem('catarbus_user');
+        // const userToken = sessionStorage.getItem('catarbus_token');
+        const userStatus = sessionStorage.getItem('catarbus_user');
         
         if (userStatus) {
           // Verifica che il token non sia scaduto (opzionale)
@@ -25,8 +25,8 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
             setIsAuthenticated(true);
           } else {
             // Token o user non validi, redirect al login
-            localStorage.removeItem('catarbus_token');
-            localStorage.removeItem('catarbus_user');
+            sessionStorage.removeItem('catarbus_token');
+            sessionStorage.removeItem('catarbus_user');
             router.push('/?login=required');
           }
         } else {
@@ -35,8 +35,8 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
         }
       } catch (error) {
         // Errore nel parsing, redirect al login
-        localStorage.removeItem('catarbus_token');
-        localStorage.removeItem('catarbus_user');
+        sessionStorage.removeItem('catarbus_token');
+        sessionStorage.removeItem('catarbus_user');
         router.push('/?login=required');
       } finally {
         setIsLoading(false);

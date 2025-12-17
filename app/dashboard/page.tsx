@@ -18,8 +18,8 @@ export default function Dashboard() {
     const [calendlyKey, setCalendlyKey] = React.useState(0);
 
     React.useEffect(() => {
-        // Accedi a localStorage solo dopo il mount del componente
-        const userStatus = JSON.parse(localStorage.getItem('catarbus_user') || 'null');
+        // Accedi a sessionStorage solo dopo il mount del componente
+        const userStatus = JSON.parse(sessionStorage.getItem('catarbus_user') || 'null');
         setCurrentUserStatus(userStatus);
     }, []);
 

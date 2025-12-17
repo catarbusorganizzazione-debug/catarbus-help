@@ -73,3 +73,21 @@ export interface RankingResponse {
   message?: string;
   ranking?: RankingUser[];
 }
+
+export interface User {
+  id: string;
+  user: string;
+  name: string;
+  colour: string;
+  role: 'admin' | 'team';
+  lastHelp?: string;
+  lastMinorCheckpoint?: string;
+  lastCheckpoint?: string;
+  checkpointsCompleted?: number;
+}
+
+export interface UsersResponse {
+  success: boolean;
+  message?: string;
+  users?: User[];
+}
