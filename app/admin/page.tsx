@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ProtectedRoute from "../components/ProtectedRoute";
-import "./components/components.scss";
+import "../components/components.scss";
 
 export default function AdminPage() {
     const router = useRouter();
