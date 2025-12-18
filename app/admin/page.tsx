@@ -177,8 +177,8 @@ export default function AdminPage() {
             <main className="flex-1 container mt-4">
                 <div className="row">
                     <div className="col-12">
-                        <h2 className="mb-4 text-white">Pannello Amministratore</h2>
-                        <h4 className="mb-3 text-white">Gestione Squadre</h4>
+                        <h2 className="mb-4">Pannello Amministratore</h2>
+                        <h4 className="mb-3">Gestione Squadre</h4>
                         
                         {loadingTeams ? (
                             <div className="text-center py-4">
