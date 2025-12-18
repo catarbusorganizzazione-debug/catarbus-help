@@ -23,7 +23,10 @@ body {
             .title{
                 @media (max-width: 1200px) {
                     &{
+                        flex-direction: row-reverse;
+                        justify-content: space-between;
                         display: none;
+
                     }
                 }
             }
@@ -33,12 +36,26 @@ body {
                 .justify-between{
                     //flex-direction: column;
                     gap: 15px;
-                    justify-content: center!important;
+                    //justify-content: center!important;
+
+                    button{
+                        color: white;
+                        &:hover{
+                            background-color: #671b05;
+                        }
+                    }
+                }
+
+                #mobile-menu{
+                    a{
+                        color: #671b05;
+                    }
                 }
             }
 
             h1 {
                 font-size: 2.3rem;
+                color: white;
             }
 
             a {
@@ -116,8 +133,8 @@ body {
                 }
 
                 .utenteInfo {
-                    width: 50%;
-                    background-color: #e6e6e6;
+                    //width: 50%;
+                    background-color: #FFFFFF;
                     border-radius: 8px;
                     padding: 30px;
                     font-size: 22px;
@@ -126,6 +143,7 @@ body {
                     @media only screen and (max-width: 1025px) {
                         &{
                            font-size: 16px;
+                           width: 100%;
                         }
                     }
 
@@ -173,6 +191,56 @@ body {
              button{
                 background-color: #671b05;
              }
+        }
+
+        .checkForm{
+            background-color: #ffffff;
+            padding: 25px;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 8px;
+            button{
+                background-color: #671b05;
+            }
+
+            .inputField{
+                margin-bottom: 12px;
+            }
+        }
+
+        &.classificaPage{
+
+            @media (max-width: 899px) {
+                #classifica{
+                    min-width: 650px;
+                }
+            }
+
+            @media (min-width: 670px), (max-width: 900px){
+                #classifica{
+                    min-width: 570px;
+                }
+            }
+
+            @media (max-width: 580px) {
+                #classifica{
+                    min-width: 250px;
+                    //max-width: 350px;
+                    h2{
+                        font-size: 18px;
+                    }
+
+                    span{
+                        font-size: 14px;
+                    }
+                }
+            }
+
+            @media (min-width: 900px) {
+                #classifica{
+                    min-width: 850px;
+                }
+            }
         }
     }
 }

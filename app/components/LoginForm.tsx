@@ -25,7 +25,7 @@ export default function LoginForm() {
       const response = await ApiHelper.login(credentials);
 
       if (response.success) {
-        sessionStorage.setItem('catarbus_user', JSON.stringify({
+        localStorage.setItem('catarbus_user', JSON.stringify({
           username: credentials.username,
           name: response.user?.name,
           role: response.user?.role,

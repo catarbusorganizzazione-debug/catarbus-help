@@ -18,8 +18,8 @@ export default function Dashboard() {
     const [calendlyKey, setCalendlyKey] = React.useState(0);
 
     React.useEffect(() => {
-        // Accedi a sessionStorage solo dopo il mount del componente
-        const userStatus = JSON.parse(sessionStorage.getItem('catarbus_user') || 'null');
+        // Accedi a localStorage solo dopo il mount del componente
+        const userStatus = JSON.parse(localStorage.getItem('catarbus_user') || 'null');
         setCurrentUserStatus(userStatus);
     }, []);
 
@@ -192,26 +192,21 @@ export default function Dashboard() {
 
         let height = "";
 
-        if (typeof window !== 'undefined') {
-            if(window.innerWidth > 520 && window.innerWidth < 1024){
-                height = "900px";
-                
-            }else if(window.innerWidth > 520 ){
-                height = "830px";
-
-            }else{
-                height = "540px";
-
-            }
-        } else {
-            // Default height for server-side rendering
+        if(window.innerWidth > 520 && innerWidth < 1024){
+            height = "900px";
+            
+        }else if(window.innerWidth > 520 ){
             height = "830px";
+
+        }else{
+            height = "540px";
+
         }
 
         return (
             <div key={calendlyKey} className="">
                 <iframe
-                    src="https://calendly.com/catarbus-organizzazione/30min?background_color=transparent0&primary_color=000000&hide_gdpr_banner=1"
+                    src="https://calendly.com/catarbus-organizzazione/30min?background_color=FFFFFF&primary_color=000000&hide_gdpr_banner=1"
                     width="100%"
                     height={height}
                     frameBorder="0"

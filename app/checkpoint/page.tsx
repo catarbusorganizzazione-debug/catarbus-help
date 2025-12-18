@@ -6,11 +6,12 @@ import ApiHelper from '../helpers/ApiHelper';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProtectedRoute from '../components/ProtectedRoute';
+import "../components/components.scss";
 
 export default function CheckpointPage() {
     // Recupera username dell'utente loggato
     const loggedUsername = typeof window !== 'undefined' ?
-        JSON.parse(sessionStorage.getItem('catarbus_user') || '{}') : {};
+        JSON.parse(localStorage.getItem('catarbus_user') || '{}') : {};
 
     const [formData, setFormData] = useState<CheckpointRequest>({
         username: '',
@@ -125,9 +126,10 @@ export default function CheckpointPage() {
 
     return (
         <ProtectedRoute>
+            <div className="min-h-screen">
             <Header />
             <div className="min-h-screen bg-gray-100 flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
-                <div className="max-w-md w-full space-y-8">
+                <div className="w-full space-y-8 checkForm rounded-lg">
                     <div>
                         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                             Registra Checkpoint
@@ -139,7 +141,7 @@ export default function CheckpointPage() {
 
                     <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                         <div className="rounded-md shadow-sm -space-y-px">
-                            <div>
+                            <div className="inputField">
                                 <label htmlFor="username" className="sr-only">
                                     Nome utente
                                 </label>
@@ -155,7 +157,7 @@ export default function CheckpointPage() {
                                     disabled={loading}
                                 />
                             </div>
-                            <div>
+                            <div className="inputField">
                                 <label htmlFor="checkpointId" className="sr-only">
                                     ID Checkpoint
                                 </label>
@@ -188,6 +190,8 @@ export default function CheckpointPage() {
                 </div>
             </div>
             <Footer />
+            </div>
+            
         </ProtectedRoute>
     );
 }
