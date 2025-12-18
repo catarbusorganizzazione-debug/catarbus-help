@@ -16,12 +16,20 @@ export default function Dashboard() {
     const [lastCheckpointString, setLastCheckpointString] = React.useState('Non disponibile');
     const [lastHelpString, setLastHelpString] = React.useState('Non disponibile');
     const [calendlyKey, setCalendlyKey] = React.useState(0);
+    const [isClient, setIsClient] = React.useState(false);
 
     React.useEffect(() => {
-        // Accedi a localStorage solo dopo il mount del componente
-        const userStatus = JSON.parse(localStorage.getItem('catarbus_user') || 'null');
-        setCurrentUserStatus(userStatus);
+        // Set client-side flag to prevent SSR issues
+        setIsClient(true);
     }, []);
+
+    React.useEffect(() => {
+        // Accedi a localStorage solo dopo il mount del componente e quando è client-side
+        if (isClient && typeof window !== 'undefined') {
+            const userStatus = JSON.parse(localStorage.getItem('catarbus_user') || 'null');
+            setCurrentUserStatus(userStatus);
+        }
+    }, [isClient]);
 
     // Effetto separato per la chiamata API quando userStatus è disponibile
     React.useEffect(() => {
@@ -192,15 +200,19 @@ export default function Dashboard() {
 
         let height = "";
 
-        if(window.innerWidth > 520 && innerWidth < 1024){
-            height = "900px";
-            
-        }else if(window.innerWidth > 520 ){
+        if (typeof window !== 'undefined') {
+            if(window.innerWidth > 520 && window.innerWidth < 1024){
+                height = "900px";
+                
+            }else if(window.innerWidth > 520 ){
+                height = "830px";
+
+            }else{
+                height = "540px";
+            }
+        } else {
+            // Default height for SSR
             height = "830px";
-
-        }else{
-            height = "540px";
-
         }
 
         return (
@@ -216,6 +228,24 @@ export default function Dashboard() {
                 ></iframe>
             </div>
         )
+    }
+
+    // Show loading state during SSR or while client-side data is loading
+    if (!isClient || !currentUserStatus) {
+        return (
+            <ProtectedRoute>
+                <div className="min-h-screen flex flex-col bg-gray-50">
+                    <Header />
+                    <main className="flex-1 container flex items-center justify-center">
+                        <div className="text-center">
+                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+                            <p className="mt-4 text-gray-600">Caricamento dashboard...</p>
+                        </div>
+                    </main>
+                    <Footer />
+                </div>
+            </ProtectedRoute>
+        );
     }
 
     return (
