@@ -6,8 +6,10 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ProtectedRoute from "../components/ProtectedRoute";
 import ApiHelper from "../helpers/ApiHelper";
+import { Constants } from "../helpers/Constants";
 import { User } from "../models/Interfaces";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import DateHelper from '../helpers/DateHelper';
 
 export default function AdminPage() {
     const router = useRouter();
@@ -99,6 +101,39 @@ export default function AdminPage() {
         }
     };
 
+    const receiveTeam = async (username: string, teamName: string) => {
+        try {
+            console.log(`Ricevendo squadra: ${teamName} (${username})`);
+            
+            const timestamp = DateHelper.formatDate();
+            
+            const response = await fetch(`${Constants.API_BASE_URI}/users/editbyusername/${username}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    lastHelp: timestamp
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                console.log(`Squadra ${teamName} ricevuta con successo`);
+                // Ricarica i dati per aggiornare la tabella
+                await loadTeams();
+                alert(`Squadra "${teamName}" ricevuta con successo!`);
+            } else {
+                console.error('Errore nell\'aggiornamento:', data);
+                alert(`Errore nel ricevere la squadra: ${data.message || 'Errore sconosciuto'}`);
+            }
+        } catch (error) {
+            console.error('Errore nella richiesta:', error);
+            alert('Errore di connessione. Riprova più tardi.');
+        }
+    };
+
     const formatDateTime = (dateString?: string) => {
         if (!dateString) return 'Non disponibile';
         
@@ -161,8 +196,8 @@ export default function AdminPage() {
                                 <table className="table table-striped table-hover">
                                     <thead className="table-dark">
                                         <tr>
+                                            <th scope="col"></th>
                                             <th scope="col">Nome Squadra</th>
-                                            <th scope="col">Colore</th>
                                             <th scope="col">Checkpoint</th>
                                             <th scope="col">Ultimo Aiuto</th>
                                             <th scope="col">Consegna Ultima Prova</th>
@@ -181,9 +216,6 @@ export default function AdminPage() {
                                             teams.map((team) => (
                                                 <tr key={team.id}>
                                                     <td>
-                                                        <strong>{team.name}</strong>
-                                                    </td>
-                                                    <td>
                                                         <div className="d-flex align-items-center">
                                                             <div 
                                                                 className="rounded-circle me-2"
@@ -193,8 +225,11 @@ export default function AdminPage() {
                                                                     backgroundColor: team.colour || '#gray'
                                                                 }}
                                                             ></div>
-                                                            <small className="text-muted">{team.colour || 'N/A'}</small>
+                                                            {/* <small className="text-muted">{team.colour || 'N/A'}</small> */}
                                                         </div>
+                                                    </td>
+                                                    <td>
+                                                        <strong>{team.name}</strong>
                                                     </td>
                                                     <td>
                                                         <span className="badge bg-primary">
@@ -213,10 +248,8 @@ export default function AdminPage() {
                                                     <td>
                                                         <button 
                                                             className="btn btn-outline-success btn-sm"
-                                                            onClick={() => {
-                                                                // Implementazione futura
-                                                                console.log(`Ricevi squadra: ${team.name}`);
-                                                            }}
+                                                            onClick={() => receiveTeam(team.username, team.name)}
+                                                            disabled={loadingTeams}
                                                         >
                                                             Ricevi Squadra
                                                         </button>

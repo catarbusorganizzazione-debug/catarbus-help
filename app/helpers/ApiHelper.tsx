@@ -1,5 +1,6 @@
 import { ApiError, LoginRequest, LoginResponse, CheckpointRequest, CheckpointResponse, UserSearchResponse, RankingResponse, LocationRequest, LocationResponse, UsersResponse } from "../models/Interfaces";
 import { Constants } from "./Constants";
+import DateHelper from "./DateHelper";
 
 // Utility per calcolare SHA256
 async function sha256(text: string): Promise<string> {
@@ -65,15 +66,7 @@ class ApiHelper {
         };
       }
 
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const day = String(now.getDate()).padStart(2, '0');
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-      const milliseconds = String(now.getMilliseconds()).padStart(3, '0');
-      const timestamp = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}+00:00`;
+      const timestamp = DateHelper.formatDate();
 
       const updateCheckpointResponse = await fetch(`${Constants.API_BASE_URI}/checkpoints/${request.checkpointId}`, {
         method: 'PUT',

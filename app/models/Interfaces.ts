@@ -76,7 +76,7 @@ export interface RankingResponse {
 
 export interface User {
   id: string;
-  user: string;
+  username: string;
   name: string;
   colour: string;
   role: 'admin' | 'team';
