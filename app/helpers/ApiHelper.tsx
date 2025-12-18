@@ -57,7 +57,7 @@ class ApiHelper {
 
   static async registerCheckpoint(request: CheckpointRequest): Promise<CheckpointResponse | ApiError> {
     try {
-      const userData = JSON.parse(sessionStorage.getItem('catarbus_user') || '{}');
+      const userData = JSON.parse(localStorage.getItem('catarbus_user') || '{}');
 
       if(!userData || !userData.username) {
         return {
@@ -126,7 +126,7 @@ class ApiHelper {
 
   static async verifyLocation(request: LocationRequest): Promise<LocationResponse | ApiError> {
     try {
-      const userData = JSON.parse(sessionStorage.getItem('catarbus_user') || '{}');
+      const userData = JSON.parse(localStorage.getItem('catarbus_user') || '{}');
 
       if(!userData || !userData.username) {
         return {

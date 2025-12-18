@@ -21,19 +21,15 @@ export default function AdminPage() {
     useEffect(() => {
         console.log('Admin useEffect triggered');
         
-        // Verifica che siamo nel browser prima di accedere a sessionStorage
+        // Verifica che siamo nel browser prima di accedere a localStorage
         if (typeof window === 'undefined') {
             console.log('Window not available, skipping');
             return;
         }
 
-        console.log('Checking sessionStorage...');
-        console.log('All sessionStorage keys:', Object.keys(sessionStorage));
-        console.log('sessionStorage length:', sessionStorage.length);
-
-        // Accedi a sessionStorage solo dopo il mount del componente
-        const userStatus = sessionStorage.getItem('catarbus_user');
-        console.log('Admin page - userStatus from sessionStorage:', userStatus);
+        // Accedi a localStorage solo dopo il mount del componente
+        const userStatus = localStorage.getItem('catarbus_user');
+        console.log('Admin page - userStatus from localStorage:', userStatus);
         
         if (!userStatus) {
             console.log('No user status found, redirecting to login');
@@ -48,8 +44,8 @@ export default function AdminPage() {
             console.log('Parsed user object:', user);
         } catch (error) {
             console.log('Error parsing user status, redirecting to login');
-            // sessionStorage.removeItem('catarbus_user');
-            // sessionStorage.removeItem('catarbus_token');
+            // localStorage.removeItem('catarbus_user');
+            // localStorage.removeItem('catarbus_token');
             setIsLoading(false);
             router.push('/?login=required');
             return;
@@ -57,8 +53,8 @@ export default function AdminPage() {
 
         if (!user) {
             console.log('Invalid user data, redirecting to login');
-            // sessionStorage.removeItem('catarbus_user');
-            // sessionStorage.removeItem('catarbus_token');
+            // localStorage.removeItem('catarbus_user');
+            // localStorage.removeItem('catarbus_token');
             setIsLoading(false);
             router.push('/?login=required');
             return;
