@@ -210,6 +210,11 @@ body {
 
         &.classificaPage{
 
+            #classifica{
+                margin-top: 25px;
+                margin-bottom: 25px;
+            }
+
             @media (max-width: 899px) {
                 #classifica{
                     min-width: 650px;
