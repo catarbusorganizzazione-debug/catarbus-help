@@ -85,7 +85,7 @@ export default function CheckpointPage() {
             <div className="mt-6 bg-white rounded-lg shadow-lg p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-4">Materiale Sbloccato</h3>
 
-                {checkpointContent.data && (
+                {checkpointContent && (
                     <div className="mb-4">
                         <h4 className="font-semibold text-gray-800 mb-3">Contenuto Multimediale:</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -106,7 +106,7 @@ export default function CheckpointPage() {
                             {(checkpointContent.isSpecificUrl || checkpointContent.isSpecificPhoto) && (
                                 <div className="bg-gray-100 rounded-lg p-3">
                                     <p className="text-sm text-gray-600">
-                                        <a href={checkpointContent.data[loggedUsername]} target="_blank">CLICCA QUI</a>
+                                        <a href={checkpointContent.data[loggedUsername.username]} target="_blank">CLICCA QUI</a>
                                     </p>
                                 </div>
                             )}
