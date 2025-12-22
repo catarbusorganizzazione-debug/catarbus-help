@@ -140,7 +140,7 @@ export default function CheckpointPage() {
                     </div>
 
                     <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-                        <div className="rounded-md shadow-sm -space-y-px">
+                        <div className="rounded-md -space-y-px">
                             <div className="inputField">
                                 <label htmlFor="username" className="sr-only">
                                     Nome utente
