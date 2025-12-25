@@ -88,27 +88,6 @@ class ApiHelper {
         };
       }
 
-      const updateUserResponse = await fetch(`${Constants.API_BASE_URI}/users/editbyusername/${userData.username}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          checkpointsCompleted: checkpointData.isMajorCheckpoint ? userData.checkpointsCompleted + 1 : userData.checkpointsCompleted + 0.1,
-          [checkpointData.isMajorCheckpoint ? 'lastMajorCheckpoint' : 'lastMinorCheckpoint']: timestamp
-        })
-      });
-
-      const userUpdateResponse = (await updateUserResponse.json()).data;
-
-      if (!updateUserResponse.ok) {
-        return {
-          success: false,
-          message: userUpdateResponse.message || 'Errore durante l\'aggiornamento del progresso dell\'utente',
-          error: userUpdateResponse.error
-        };
-      }
-
       return {
         success: true,
         message: checkpointData.message || 'Checkpoint registrato con successo',
