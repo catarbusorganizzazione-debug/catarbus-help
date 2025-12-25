@@ -74,7 +74,8 @@ class ApiHelper {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          [userData.username]: timestamp
+          [userData.username]: timestamp,
+          username: userData.username
         })
       });
 
