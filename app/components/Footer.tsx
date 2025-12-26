@@ -31,7 +31,7 @@ export default function Footer() {
             <h3 className="font-semibold mb-4">Supporto Tecnico</h3>
             <div className="text-sm text-gray-400">
               <p>Per supporto tecnico o assistenza durante il gioco</p>
-              <p className="mt-2 text-blue-400">aa@asdhjagfjkhsgkjf.it</p>
+              <p className="mt-2 text-blue-400">3483745187 - 3484312947 - 3486496046</p>
             </div>
           </div>
 
@@ -43,7 +43,7 @@ export default function Footer() {
                 Per soli fini di emergenza durante il gioco, utilizzare il
                 gruppo WhatsApp oppure contattare
               </p>
-              <p className="mt-2 text-blue-400">3333333333</p>
+              <p className="mt-2 text-blue-400">3793445926</p>
             </div>
           </div>
         </div>
