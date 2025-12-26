@@ -28,7 +28,7 @@ export default function Dashboard() {
         if (isClient && typeof window !== 'undefined') {
             // const userStatus = JSON.parse(localStorage.getItem('catarbus_user') || 'null');
             // setCurrentUserStatus(userStatus);
-            ApiHelper.searchUser(currentUserStatus.username).then(result => {
+            ApiHelper.searchUser(JSON.parse(localStorage.getItem('catarbus_user') || 'null').username).then(result => {
                 if (result.success) {
                     console.log('User found:', result.user);
                     setCurrentUserStatus((prev: any) => ({
