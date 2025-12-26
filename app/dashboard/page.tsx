@@ -196,7 +196,7 @@ export default function Dashboard() {
         const lastHelpDiff = lastHelpTime ? (now.getTime() - lastHelpTime.getTime()) / (1000 * 60) : 999; // minuti
         const lastCheckpointDiff = lastCheckpointTime ? (now.getTime() - lastCheckpointTime.getTime()) / (1000 * 60) : 999; // minuti
 
-        const canRequestHelp = lastHelpDiff > 30 && lastCheckpointDiff > 60;
+        const canRequestHelp = lastHelpDiff > 30 || lastCheckpointDiff > 60;
 
         if (!canRequestHelp) {
             return (
