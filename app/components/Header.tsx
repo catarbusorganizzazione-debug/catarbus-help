@@ -97,7 +97,7 @@ export default function Header() {
               href="/verify-location"
               className="text-gray-700 hover:text-blue-600 transition-colors"
             >
-              Verifica destinazione
+              Verifica coordinata
             </Link>
             <Link
               href="/dashboard"
