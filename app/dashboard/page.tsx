@@ -35,7 +35,8 @@ export default function Dashboard() {
                         ...prev,
                         checkpointsCompleted: result.user?.checkpointsCompleted,
                         lastMinorCheckpoint: result.user?.lastMinorCheckpoint,
-                        lastCheckpoint: result.user?.lastCheckpoint
+                        lastCheckpoint: result.user?.lastCheckpoint,
+                        lastHelp: result.user?.lastHelp 
                     }));
                 } else {
                     console.error('User search failed:', result.message);
@@ -54,7 +55,8 @@ export default function Dashboard() {
                         ...prev,
                         checkpointsCompleted: result.user?.checkpointsCompleted,
                         lastMinorCheckpoint: result.user?.lastMinorCheckpoint,
-                        lastCheckpoint: result.user?.lastCheckpoint
+                        lastCheckpoint: result.user?.lastCheckpoint,
+                        lastHelp: result.user?.lastHelp 
                     }));
                 } else {
                     console.error('User search failed:', result.message);
