@@ -26,8 +26,21 @@ export default function Dashboard() {
     React.useEffect(() => {
         // Accedi a localStorage solo dopo il mount del componente e quando è client-side
         if (isClient && typeof window !== 'undefined') {
-            const userStatus = JSON.parse(localStorage.getItem('catarbus_user') || 'null');
-            setCurrentUserStatus(userStatus);
+            // const userStatus = JSON.parse(localStorage.getItem('catarbus_user') || 'null');
+            // setCurrentUserStatus(userStatus);
+            ApiHelper.searchUser(currentUserStatus.username).then(result => {
+                if (result.success) {
+                    console.log('User found:', result.user);
+                    setCurrentUserStatus((prev: any) => ({
+                        ...prev,
+                        checkpointsCompleted: result.user?.checkpointsCompleted,
+                        lastMinorCheckpoint: result.user?.lastMinorCheckpoint,
+                        lastCheckpoint: result.user?.lastCheckpoint
+                    }));
+                } else {
+                    console.error('User search failed:', result.message);
+                }
+            });
         }
     }, [isClient]);
 
