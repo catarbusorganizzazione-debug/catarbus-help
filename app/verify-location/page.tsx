@@ -19,6 +19,7 @@ export default function CheckpointPage() {
     const [message, setMessage] = useState<string>('');
     const [isError, setIsError] = useState(false);
     const [verifiedDestinationCheck, setVerifiedDestinationCheck] = useState(false);
+    const [moreInfo, setMoreInfo] = useState("");
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -48,6 +49,7 @@ export default function CheckpointPage() {
                 setVerifiedDestinationCheck(result.check);
                 setMessage(result.message);
                 setIsError(false);
+                setMoreInfo(result.info);
                 // Reset form dopo successo
                 setFormData({
                     username: '',
@@ -141,6 +143,9 @@ export default function CheckpointPage() {
                                         <h3 className="text-sm font-medium">
                                             {(isError) ? 'Errore' : !verifiedDestinationCheck ? `ALT! Per questa prova non devi andare alla destinazione da te indicata` : `Destinazione confermata per questa prova`}
                                         </h3>
+                                        <h5 className="text-sm font-medium">
+                                            {(moreInfo) ? `Info aggiuntive: ${moreInfo}` : ``}
+                                        </h5>
                                         {isError && <div className="mt-2 text-sm">
                                             <p>{message}</p>
                                         </div>}
