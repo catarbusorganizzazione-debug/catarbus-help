@@ -135,7 +135,7 @@ class ApiHelper {
         success: true,
         check: checkLocationData.verified,
         message: 'Verifica effettuata con successo.',
-        info: checkLocationData.info ? checkLocationData.info : ""
+        info: checkLocationData?.info || ""
       };
 
     } catch (error) {
