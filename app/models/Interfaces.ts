@@ -45,7 +45,8 @@ export interface CheckpointResponse {
 export interface LocationResponse {
   success: boolean;
   check: boolean;
-  message: string;
+  message: string;;
+  info?: string;
 }
 
 export interface UserSearchResponse {
