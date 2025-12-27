@@ -33,6 +33,7 @@ export interface LocationRequest {
   username: string;
   provaId: string;
   destination: string;
+  info?: string
 }
 
 export interface CheckpointResponse {
