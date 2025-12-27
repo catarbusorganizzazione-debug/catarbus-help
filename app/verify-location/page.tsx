@@ -78,7 +78,7 @@ export default function CheckpointPage() {
                         </h2>
                         <p className="mt-2 text-center text-sm text-gray-600">
                             Inserisci i dati per verificare una destinazione<br />
-                            (valido solo per le mete oltre il confine del centro abitato)
+                            (valido solo per le mete oltre il confine del centro abitato, salvo eventuali comunicazioni)
                         </p>
                     </div>
 
