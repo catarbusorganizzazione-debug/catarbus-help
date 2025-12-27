@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { LoginResponse } from "../models/Interfaces";
 import ApiHelper from "../helpers/ApiHelper";
 import "../components/components.scss";
+import DateHelper from "../helpers/DateHelper";
 
 export default function Dashboard() {
     const [activeKey, setActiveKey] = React.useState('1');
@@ -189,7 +190,7 @@ export default function Dashboard() {
     }
 
     const renderSection2 = () => {
-        const now = new Date();
+        const now = new Date(DateHelper.formatDate());
         const lastHelpTime = currentUserStatus?.lastHelp ? new Date(currentUserStatus.lastHelp) : null;
         const lastCheckpointTime = currentUserStatus?.lastCheckpoint ? new Date(currentUserStatus.lastCheckpoint) : null;
 
