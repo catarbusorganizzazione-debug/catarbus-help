@@ -49,7 +49,7 @@ export default function CheckpointPage() {
                 setVerifiedDestinationCheck(result.check);
                 setMessage(result.message);
                 setIsError(false);
-                setMoreInfo(result.info);
+                setMoreInfo(result.info || "");
                 // Reset form dopo successo
                 setFormData({
                     username: '',
