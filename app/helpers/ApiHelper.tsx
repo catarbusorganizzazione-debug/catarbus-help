@@ -131,11 +131,13 @@ class ApiHelper {
         };
       }
 
+      const returnInfoMessage = checkLocationData.info ? checkLocationData.info : "";
+
       return {
         success: true,
         check: checkLocationData.verified,
         message: 'Verifica effettuata con successo.',
-        info: checkLocationData?.info || ""
+        info: returnInfoMessage
       };
 
     } catch (error) {
